@@ -1,0 +1,3591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Again</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xMiA0Ljc1TDE5LjI1IDlMMTIgMTMuMjVMNC43NSA5TDEyIDQuNzVaIiBzdHJva2U9IiMwYTY4NjAiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KICAgIDxwYXRoIGQ9Ik05LjI1IDExLjVMNC43NSAxNEwxMiAxOC4yNUwxOS4yNSAxNEwxNC43NSAxMS41IiBzdHJva2U9IiMwYTY4NjAiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==">
+
+<style>
+/* ===== GLOBAL VARIABLES ===== */
+:root {
+    /* Color Palette */
+    --primary: #0a6860;
+    --primary-light: #37a6a0;
+    --primary-dark: #084e48;
+    --secondary: #ff6b35;
+    --secondary-light: #ff8c5a;
+    --accent: #fbb63c;
+    --text-dark: #1a2138;
+    --text-medium: #515670;
+    --text-light: #ffffff;
+    --background: #f6f9fc;
+    --card-bg: #ffffff;
+    --danger: #f45366;
+    --success: #32a582;
+    --neutral: #6e7a94;
+    
+    /* Shadows */
+    --shadow-sm: 0 2px 8px rgba(16, 24, 40, 0.08);
+    --shadow-md: 0 8px 16px rgba(16, 24, 40, 0.12);
+    --shadow-lg: 0 12px 32px rgba(16, 24, 40, 0.16);
+    
+    /* Other */
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --border-radius: 12px;
+}
+
+/* ===== RESET & BASE STYLES ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--text-dark);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* ===== SPLASH SCREEN ===== */
+.splash-container {
+    flex: 1;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(to bottom right, var(--primary-dark), var(--primary), var(--primary-light));
+    z-index: 200;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: transform 0.8s ease-in-out, opacity 0.8s ease;
+}
+
+.splash-container.hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+.world-map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8IS0tIFdvcmxkIG1hcCBvdXRsaW5lIC0tPgogIDxwYXRoIGQ9Ik0xMCAyMCBDMTUgMTUgMjUgMjAgMzUgMjUgQzQ1IDMwIDU1IDI1IDY1IDIwIEM3NSAxNSA4NSAyMCA5MCAxNSBMOTUgNDAgQzkwIDQ1IDgwIDQwIDcwIDM1IEM2MCAzMCA1MCAzNSA0MCA0MCBDMzAgNDUgMjAgNDAgMTAgNDUgTDUgMjAgQzUgMjAgOCAxOCAxMCAyMFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjEpIiBzdHJva2Utd2lkdGg9IjAuNSIvPgogIDxwYXRoIGQ9Ik0xNSA1MCBDMjAgNDUgMzAgNTAgNDAgNTUgQzUwIDYwIDYwIDU1IDcwIDUwIEM4MCA0NSA5MCA1MCA5NSA0NSBMOTAgNzAgQzg1IDc1IDc1IDcwIDY1IDY1IEM1NSA2MCA0NSA2NSAzNSA3MCBDMjUgNzUgMTUgNzAgNSA3NSBMNSA1MCBDNSA1MCAxMCA0OCAxNSA1MFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjEpIiBzdHJva2Utd2lkdGg9IjAuNSIvPgo8L3N2Zz4=');
+    opacity: 0.1;
+}
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.8; }
+}
+
+.connection-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.2;
+}
+
+.connection-line {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.4);
+    height: 2px;
+    transform-origin: left center;
+    animation: pulse 4s infinite;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+.connection-line.connection-strategic {
+    background-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+.connection-line.connection-thin {
+    height: 1px;
+    opacity: 0.3;
+}
+
+.node {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: white;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+    z-index: 2;
+    animation: pulse 4s infinite;
+}
+
+.splash-content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+}
+
+.content-wrapper {
+    max-width: 600px;
+    text-align: center;
+}
+
+.game-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.logo-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--secondary), var(--secondary-light));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-md);
+}
+
+.logo-icon svg {
+    width: 40px;
+    height: 40px;
+    stroke: white;
+    stroke-width: 2;
+}
+
+.game-title {
+    color: var(--text-light);
+    font-size: 8rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+}
+
+.game-subtitle {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.game-description {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 3rem;
+}
+
+.cta-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary {
+    background-color: var(--secondary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-light);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--text-light);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-outline:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.btn-lg {
+    padding: 1.2rem 2.5rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    border-radius: 12px;
+}
+
+.btn-small {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+}
+
+/* Educational note styles */
+.educational-note {
+    max-width: 600px;
+    padding: 1.25rem;
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    border-left: 3px solid var(--accent);
+    text-align: left;
+}
+
+.note-badge {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+}
+
+.educational-note p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.85rem;
+    line-height: 1.6;
+}
+
+.floating-badge {
+    position: absolute;
+    right: 2rem;
+    top: 2rem;
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+    border-radius: 30px;
+    padding: 0.75rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-light);
+    font-weight: 600;
+    box-shadow: var(--shadow-md);
+}
+
+.badge-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.version-badge {
+    position: absolute;
+    left: 2rem;
+    bottom: 2rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.8s forwards;
+    opacity: 0;
+}
+
+.delay-1 {
+    animation-delay: 0.1s;
+}
+
+.delay-2 {
+    animation-delay: 0.3s;
+}
+
+.delay-3 {
+    animation-delay: 0.5s;
+}
+
+.delay-4 {
+    animation-delay: 0.7s;
+}
+/* ===== MISSION DRAWER ===== */
+.mission-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 150;
+    display: flex;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.mission-drawer.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.mission-panel {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    overflow: hidden;
+}
+
+.mission-list {
+    width: 320px;
+    background-color: rgba(10, 104, 96, 0.9);
+    backdrop-filter: blur(10px);
+    height: 100%;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+.mission-list-header {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+}
+
+.mission-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    border: 2px solid transparent;
+    will-change: transform, opacity;
+}
+
+.mission-item:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.mission-item.active {
+    border-color: var(--secondary);
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.mission-item-title {
+    font-weight: 600;
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.mission-item-desc {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.mission-details {
+    flex-grow: 1;
+    background-color: var(--card-bg);
+    padding: 2rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.mission-content {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    flex: 1;
+}
+
+.mission-text {
+    flex: 1;
+}
+
+.mission-image {
+    width: 300px;
+    height: 200px;
+    background-color: #eee;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-medium);
+    font-size: 0.9rem;
+}
+
+.mission-header {
+    margin-bottom: 2rem;
+}
+
+.mission-header h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.mission-header p {
+    color: var(--text-medium);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.mission-metrics {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.mission-metric {
+    background-color: var(--background);
+    border-radius: 8px;
+    padding: 1rem;
+    flex-grow: 1;
+}
+
+.mission-metric-label {
+    font-size: 0.8rem;
+    color: var(--text-medium);
+    margin-bottom: 0.5rem;
+}
+
+.mission-metric-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.difficulty-value {
+    color: var(--primary);
+}
+
+.duration-value {
+    color: var(--accent);
+}
+
+.reward-value {
+    color: var(--success);
+}
+
+.challenges-list, .criteria-list {
+    margin: 1rem 0 1.5rem 1.5rem;
+}
+
+.challenges-list li, .criteria-list li {
+    margin-bottom: 0.75rem;
+    color: var(--text-medium);
+    line-height: 1.5;
+}
+
+.mission-start-btn {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: var(--secondary);
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 2rem;
+}
+
+.mission-start-btn:hover {
+    background-color: var(--secondary-light);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* ===== HEADER ===== */
+header {
+    background-color: var(--card-bg);
+    padding: 1rem 2rem;
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+    z-index: 100;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+header .game-logo {
+    margin-bottom: 0;
+}
+
+header .logo-icon {
+    width: 40px;
+    height: 40px;
+}
+
+header .logo-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+header .game-logo h1 {
+    font-size: 1.25rem;
+    margin: 0;
+    color: var(--text-dark);
+}
+
+.game-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.mission-timer {
+    background-color: rgba(10, 104, 96, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.mission-timer svg {
+    color: var(--primary);
+}
+
+header .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+/* ===== MAIN CONTAINER ===== */
+.main-container {
+    display: none;
+    grid-template-columns: 320px 1fr 320px;
+    gap: 1.25rem;
+    padding: 1.25rem;
+    margin-top: 72px; /* Make room for header */
+    height: calc(100vh - 72px - 1.25rem * 2);
+    overflow: hidden;
+    position: relative;
+}
+
+.panel {
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--card-bg);
+    transition: var(--transition);
+    height: 100%;
+    opacity: 0;
+    transform: translateY(20px);
+    will-change: transform, opacity;
+}
+
+.panel:hover {
+    box-shadow: var(--shadow-lg);
+}
+
+/* ===== NETWORK VISUALIZATION ===== */
+.network-visualization {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+    opacity: 0.05;
+}
+
+.network-node {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    box-shadow: 0 0 5px rgba(10, 104, 96, 0.5);
+}
+
+.network-connection {
+    position: absolute;
+    height: 1px;
+    background-color: var(--primary);
+    transform-origin: left center;
+}
+/* ===== PANEL STRUCTURE ===== */
+.panel-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.panel-header h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.panel-content {
+    padding: 1.5rem;
+    overflow-y: auto;
+    height: calc(100% - 60px);
+}
+
+.section-title {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    color: var(--text-dark);
+}
+
+/* ===== TAB NAVIGATION ===== */
+.tab-navigation {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.tab {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-medium);
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    overflow: hidden;
+}
+
+.tab.active {
+    background-color: var(--primary);
+    color: white;
+}
+
+.tab:not(.active):hover {
+    background-color: rgba(10, 104, 96, 0.05);
+}
+
+.tab:not(.active):after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary);
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+.tab:not(.active):hover:after {
+    width: 100%;
+    left: 0;
+}
+
+/* ===== NARRATIVE SECTION ===== */
+.narrative-section {
+    margin-bottom: 2rem;
+}
+
+.narrative-entry {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    will-change: transform, opacity;
+}
+
+.narrative-icon {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(10, 104, 96, 0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.narrative-entry:hover .narrative-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.narrative-content h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--text-dark);
+}
+
+.narrative-content p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-medium);
+}
+
+/* ===== MISSION OBJECTIVES ===== */
+.mission-objectives {
+    margin-bottom: 2rem;
+}
+
+.objective-list {
+    margin-top: 1rem;
+}
+
+.objective-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 0.75rem;
+    gap: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: var(--transition);
+    will-change: transform, opacity;
+}
+
+.objective-item:hover {
+    background-color: rgba(10, 104, 96, 0.05);
+}
+
+.objective-checkbox {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 2px solid var(--primary);
+    margin-top: 2px;
+    flex-shrink: 0;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.objective-checkbox.checked {
+    background-color: var(--primary);
+    position: relative;
+}
+
+.objective-checkbox.checked::after {
+    content: "✓";
+    position: absolute;
+    color: white;
+    font-size: 0.8rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.objective-text {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--text-medium);
+}
+
+/* ===== METRICS ===== */
+.mission-progress {
+    margin-bottom: 2rem;
+}
+
+.metrics-container {
+    margin-top: 1rem;
+}
+
+.metric {
+    margin-bottom: 1rem;
+}
+
+.metric-label {
+    font-size: 0.8rem;
+    color: var(--text-medium);
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.metric-bar {
+    height: 8px;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.25rem;
+}
+
+.fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 1.3s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.fill-transparency {
+    background-color: var(--primary);
+}
+
+.fill-community {
+    background-color: var(--accent);
+}
+
+.fill-esg {
+    background-color: var(--success);
+}
+
+.fill-accountability {
+    background-color: var(--secondary);
+}
+
+.metric-value {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: right;
+}
+
+.value-low {
+    color: var(--danger);
+}
+
+.value-medium {
+    color: var(--accent);
+}
+
+.value-high {
+    color: var(--success);
+}
+
+/* ===== ACTION CARDS ===== */
+.action-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.action-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                box-shadow 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                opacity 0.4s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    will-change: transform, opacity;
+}
+
+.action-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: var(--shadow-lg);
+}
+
+.action-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+}
+
+.action-header h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.action-cost {
+    background-color: rgba(10, 104, 96, 0.1);
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--primary);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.action-description {
+    font-size: 0.8rem;
+    color: var(--text-medium);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+/* ===== RIPPLE EFFECT ===== */
+.ripple-effect {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.4);
+    transform: scale(0);
+    animation: ripple 0.6s linear;
+    pointer-events: none;
+}
+
+@keyframes ripple {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* ===== ACTION LOADING OVERLAY ===== */
+.action-loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 300;
+    display: none;
+    opacity: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease;
+}
+
+.action-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1.5rem;
+}
+
+.action-loading-text {
+    color: white;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.action-loading-subtext {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+}
+/* ===== RESOURCES & STAKEHOLDERS ===== */
+.resources-section, .stakeholders-section, .news-updates {
+    margin-bottom: 2rem;
+}
+
+.resources-list {
+    margin-top: 1rem;
+}
+
+.resource-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem;
+    background-color: rgba(0, 0, 0, 0.02);
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    will-change: transform, opacity;
+}
+
+.resource-name {
+    font-size: 0.8rem;
+    color: var(--text-medium);
+}
+
+.resource-value {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.resource-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+}
+
+.resource-icon.budget {
+    background-color: rgba(50, 165, 130, 0.1);
+    color: var(--success);
+}
+
+.resource-icon.influence {
+    background-color: rgba(10, 104, 96, 0.1);
+    color: var(--primary);
+}
+
+.resource-icon.staff {
+    background-color: rgba(251, 182, 60, 0.1);
+    color: var(--accent);
+}
+
+.resource-icon.time {
+    background-color: rgba(244, 83, 102, 0.1);
+    color: var(--danger);
+}
+
+/* ===== STAKEHOLDERS ===== */
+.stakeholders-list {
+    margin-top: 1rem;
+}
+
+.stakeholder-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: var(--transition);
+    will-change: transform, opacity;
+}
+
+.stakeholder-item:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+    transform: translateY(-2px);
+}
+
+.stakeholder-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.stakeholder-info {
+    flex-grow: 1;
+}
+
+.stakeholder-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.25rem;
+}
+
+.stakeholder-relationship {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.relationship-friendly {
+    background-color: rgba(50, 165, 130, 0.1);
+    color: var(--success);
+}
+
+.relationship-neutral {
+    background-color: rgba(110, 122, 148, 0.1);
+    color: var(--neutral);
+}
+
+.relationship-hostile {
+    background-color: rgba(244, 83, 102, 0.1);
+    color: var(--danger);
+}
+
+.stakeholder-influence {
+    font-size: 0.7rem;
+    color: var(--text-medium);
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 0.2rem 0.5rem;
+    border-radius: 20px;
+}
+
+/* ===== NEWS UPDATES ===== */
+.news-updates {
+    margin-top: 2rem;
+}
+
+.news-item {
+    padding: 1rem;
+    border-left: 3px solid var(--primary);
+    background-color: rgba(10, 104, 96, 0.05);
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 1rem;
+    will-change: transform, opacity;
+}
+
+.news-date {
+    font-size: 0.7rem;
+    color: var(--text-medium);
+    margin-bottom: 0.25rem;
+}
+
+.news-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.news-summary {
+    font-size: 0.8rem;
+    color: var(--text-medium);
+    line-height: 1.5;
+}
+
+/* ===== MISSION STATUS ===== */
+.mission-status {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--primary);
+    background-color: rgba(10, 104, 96, 0.1);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+}
+
+/* ===== LOADING SCREEN ===== */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--primary);
+    z-index: 300;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.loading-screen.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.loading-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.loading-circle {
+    width: 100%;
+    height: 100%;
+    border: 5px solid rgba(255, 255, 255, 0.2);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    transition: opacity 0.3s ease;
+}
+
+.loading-subtext {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.loading-progress {
+    width: 300px;
+    height: 6px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    margin-top: 2rem;
+    overflow: hidden;
+}
+
+.loading-bar {
+    height: 100%;
+    width: 0%;
+    background-color: white;
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+/* ===== DOCUMENTS TAB ===== */
+.documents-interface {
+    display: flex;
+    height: 100%;
+    gap: 1.5rem;
+}
+
+.documents-sidebar {
+    width: 240px;
+    flex-shrink: 0;
+}
+
+.documents-list {
+    margin-top: 1rem;
+}
+
+.document-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: var(--transition);
+    border: 1px solid transparent;
+}
+
+.document-item:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.document-item.active {
+    background-color: rgba(10, 104, 96, 0.05);
+    border-color: rgba(10, 104, 96, 0.2);
+}
+
+.document-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.document-info {
+    flex-grow: 1;
+}
+
+.document-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.25rem;
+}
+
+.document-type {
+    font-size: 0.7rem;
+    color: var(--text-medium);
+    padding: 0.1rem 0.5rem;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.document-viewer {
+    flex-grow: 1;
+    background-color: var(--background);
+    border-radius: 8px;
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+.document-viewer-placeholder {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-medium);
+}
+
+.placeholder-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.placeholder-text {
+    font-size: 0.9rem;
+}
+
+.document-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.document-header-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    background-color: rgba(10, 104, 96, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.document-header-info h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.document-header-type {
+    font-size: 0.8rem;
+    color: var(--text-medium);
+}
+
+.document-content {
+    line-height: 1.8;
+}
+
+/* ===== NOTIFICATION SYSTEM ===== */
+.notification-container {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 150;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 300px;
+}
+
+.notification {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    gap: 0.75rem;
+    position: relative;
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.notification.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.notification-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-weight: bold;
+}
+
+.notification-success {
+    background-color: rgba(50, 165, 130, 0.1);
+    color: var(--success);
+}
+
+.notification-warning {
+    background-color: rgba(251, 182, 60, 0.1);
+    color: var(--accent);
+}
+
+.notification-error {
+    background-color: rgba(244, 83, 102, 0.1);
+    color: var(--danger);
+}
+
+.notification-info {
+    background-color: rgba(10, 104, 96, 0.1);
+    color: var(--primary);
+}
+
+.notification-content {
+    flex-grow: 1;
+}
+
+.notification-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+    color: var(--text-dark);
+}
+
+.notification-message {
+    font-size: 0.8rem;
+    color: var(--text-medium);
+}
+
+.notification-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+.notification-close:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* ===== MODALS ===== */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+    transform: scale(0.9);
+    opacity: 0;
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                opacity 0.5s ease;
+}
+
+.modal.active .modal-content {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.modal-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.modal-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.modal-close:hover {
+    background-color: rgba(244, 83, 102, 0.1);
+    color: var(--danger);
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+/* Menu modal items */
+.menu-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.02);
+    transition: var(--transition);
+    cursor: pointer;
+    border: none;
+    text-align: left;
+    font-size: 1rem;
+    color: var(--text-dark);
+}
+
+.menu-item:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+}
+
+.menu-item svg {
+    width: 24px;
+    height: 24px;
+    color: var(--primary);
+}
+
+.danger-item {
+    color: var(--danger);
+}
+
+.danger-item svg {
+    color: var(--danger);
+}
+</style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+      <div class="loading-icon">
+        <div class="loading-circle"></div>
+      </div>
+      <div class="loading-text">Loading mission data...</div>
+      <div class="loading-subtext">Preparing financial tools and diplomatic profiles</div>
+      <div class="loading-progress">
+        <div class="loading-bar" id="loadingBar"></div>
+      </div>
+    </div>
+    
+    <!-- Splash Screen -->
+    <div class="splash-container" id="splashScreen">
+      <div class="world-map"></div>
+      <div class="connection-lines" id="splashConnections"></div>
+    
+      <div class="splash-content">
+        <div class="content-wrapper">
+          <div class="game-logo fade-in">
+            <h1 class="game-title">AidCraft</h1>
+           </div>
+          <h2 class="game-subtitle fade-in delay-1">The Global Development Finance Game</h2>
+          
+          <p class="game-description fade-in delay-2">
+            Manage critical infrastructure investments while balancing budget constraints, diplomatic relations, and political pressures.
+          </p>
+          
+          <div class="cta-buttons fade-in delay-3">
+            <button class="btn btn-primary btn-lg" id="playButton">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 12L10 16.5V7.5L16 12Z" fill="white" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+                <circle cx="12" cy="12" r="9" stroke="white" stroke-width="1.5"/>
+              </svg>
+              Start Game
+            </button>
+            <button class="btn btn-outline" id="howToPlayBtn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 6.75V8.25" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 15.75V17.25" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 12L12 12.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="white" stroke-width="1.5"/>
+              </svg>
+              How to Play
+            </button>
+          </div>
+        </div>
+      </div>
+    
+      <div class="floating-badge">
+        <div class="badge-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 5H4V21H20V5Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4 9H20" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8 5V3" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M16 5V3" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        Finance Ministry Official
+      </div>
+      
+      <div class="version-badge">v1.0 developed by Sethu Nguna and Claude (2025)</div>
+    </div>
+    <!-- Mission Selection Drawer -->
+    <div class="mission-drawer" id="missionDrawer">
+      <div class="mission-panel">
+        <div class="mission-list">
+          <h2 class="mission-list-header">Select a Mission</h2>
+          
+          <div class="mission-item active" data-mission="1">
+            <div class="mission-item-title">The Hidden Debt Challenge</div>
+            <div class="mission-item-desc">Manage port financing while navigating fiscal pressures and diplomatic interests</div>
+          </div>
+        </div>
+        
+        <div class="mission-details">
+          <div class="mission-header">
+            <h2>Hidden Debt Trap Challenge</h2>
+          </div>
+          
+          <div class="mission-content">
+            <div class="mission-text">
+              <p>Your coastal nation of Azuria secured a commercial loan from China to build a major port facility, promising increased trade and economic growth. As repayment deadlines approach, the port is operating at only 40% capacity, falling far short of revenue projections. The Prime Minister has tasked you with finding a solution that preserves Azuria's fiscal stability without compromising diplomatic relationships.</p>
+              
+              <p>Initial analysis suggests the loan agreement contains concerning collateral clauses that could transfer control of this strategic asset to the lender in case of default. Meanwhile, local fishing communities report significant environmental damage from port dredging operations, adding political pressure.</p>
+              
+              <p>As Finance Ministry Official, you must navigate complex stakeholder dynamics, evaluate refinancing options from both Chinese and Western institutions, and find a solution that protects your nation's financial stability, strategic assets, and political standing.</p>
+            </div>
+            
+            <div class="mission-image">
+              <div>Port Facility Image Placeholder</div>
+            </div>
+          </div>
+          
+          <div class="mission-metrics">
+            <div class="mission-metric">
+              <div class="mission-metric-label">Difficulty</div>
+              <div class="mission-metric-value difficulty-value">Medium</div>
+            </div>
+            <div class="mission-metric">
+              <div class="mission-metric-label">Duration</div>
+              <div class="mission-metric-value duration-value">10 Days</div>
+            </div>
+            <div class="mission-metric">
+              <div class="mission-metric-label">Initial Budget</div>
+              <div class="mission-metric-value reward-value">$15,000,000</div>
+            </div>
+          </div>
+          
+          <h3>Key Challenges</h3>
+          <ul class="challenges-list">
+            <li>The port is generating insufficient revenue to meet the upcoming loan payment</li>
+            <li>Civil society organizations are demanding full loan term disclosure, threatening political stability</li>
+            <li>Fishing communities are threatening protests due to environmental impacts</li>
+            <li>Western development banks are offering refinancing options with governance conditions</li>
+          </ul>
+          
+          <h3>Success Criteria</h3>
+          <ul class="criteria-list">
+            <li>Establish a sustainable debt repayment plan</li>
+            <li>Maintain your political influence above critical threshold</li>
+            <li>Mitigate environmental concerns without compromising fiscal stability</li>
+            <li>Maintain diplomatic relations with both Chinese and Western stakeholders</li>
+          </ul>
+          
+          <div class="learning-objectives">
+            <h3>Learning Objectives</h3>
+            <ul>
+              <li>Understand the multilayered dynamics of Chinese overseas financing</li>
+              <li>Develop strategies for balancing development needs with environmental protections</li>
+              <li>Practice finding multi-stakeholder solutions to complex problems</li>
+              <li>Learn practical advocacy approaches for promoting transparency and accountability</li>
+            </ul>
+          </div>
+          
+          <button class="mission-start-btn" id="startMissionBtn">Start Mission</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Guide Modal -->
+    <div class="modal" id="guideModal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title">Game Guide: Finance Ministry Official</h3>
+            <div class="modal-close" id="closeGuideModal">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 6L6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M6 6L18 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+          <div class="modal-body">
+            <h4>Your Mission</h4>
+            <p>Balance fiscal responsibility, diplomatic relationships, and political priorities to safeguard your nation's financial stability while managing complex development finance projects.</p>
+            
+            <h4>Game Controls</h4>
+            <ul>
+              <li><strong><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle; margin-right: 5px;">
+                <path d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 10C10.1046 10 11 9.10457 11 8C11 6.89543 10.1046 6 9 6C7.89543 6 7 6.89543 7 8C7 9.10457 7.89543 10 9 10Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2.67004 18.9501L7.60004 15.6401C8.39004 15.1101 9.53004 15.1701 10.24 15.7801L10.57 16.0701C11.35 16.7401 12.61 16.7401 13.39 16.0701L17.55 12.5001C18.33 11.8301 19.59 11.8301 20.37 12.5001L22 13.9001" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg> Policy Decisions</strong> - Make critical financial and diplomatic choices that impact your nation's economy and relationships.</li>
+              <li><strong><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle; margin-right: 5px;">
+                <path d="M22 10V15C22 20 20 22 15 22H9C4 22 2 20 2 15V9C2 4 4 2 9 2H14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M22 10H18C15 10 14 9 14 6V2L22 10Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M7 13H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M7 17H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg> Action Cards</strong> - Strategic tools to negotiate, restructure debt, analyze markets, and manage stakeholders.</li>
+              <li><strong><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle; margin-right: 5px;">
+                <path d="M14.4 9.60001H9.60004" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 7.20001V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16.8 2H7.20004C4.00004 2 2 4.00001 2 7.20001V16.8C2 20 4.00004 22 7.20004 22H16.8C20 22 22 20 22 16.8V7.20001C22 4.00001 20 2 16.8 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg> Stakeholder Management</strong> - Build relationships with key financial institutions, government officials and international partners.</li>
+            </ul>
+            
+            <h4>Success Metrics</h4>
+            <p>Your performance is measured across four key areas:</p>
+            <ul>
+              <li><strong>Fiscal Sustainability</strong> - How well you maintain financial health and debt manageability</li>
+              <li><strong>Political Capital</strong> - Your influence with domestic stakeholders and government</li>
+              <li><strong>Environmental Compliance</strong> - Your management of environmental impacts and concerns</li>
+              <li><strong>International Relations</strong> - Your diplomatic standing with global financial institutions</li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline" id="closeGuideBtn">Close</button>
+            <button class="btn btn-primary" id="startTutorialBtn">Start Tutorial</button>
+          </div>
+        </div>
+    </div>
+    
+    <!-- Menu Modal -->
+    <div class="modal" id="menuModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">Game Menu</h3>
+          <div class="modal-close" id="closeMenuModal">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 6L6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M6 6L18 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="menu-items">
+            <button class="menu-item" id="menuSaveGame">Save Game</button>
+            <button class="menu-item" id="menuLoadGame">Load Game</button>
+            <button class="menu-item" id="menuOptions">Options</button>
+            <button class="menu-item" id="menuReturnMain">Home</button>
+            <button class="menu-item danger-item" id="menuExit">Exit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Stakeholder Detail Modal -->
+    <div class="modal" id="stakeholderModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="stakeholderModalTitle">Stakeholder Details</h3>
+          <div class="modal-close" id="closeStakeholderModal">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 6L6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M6 6L18 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="modal-body" id="stakeholderModalBody">
+          <!-- Content will be dynamically inserted here -->
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline" id="closeStakeholderBtn">Close</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Action Loading Overlay -->
+    <div class="action-loading-overlay" id="actionLoadingOverlay">
+      <div class="action-spinner"></div>
+      <div class="action-loading-text">Processing action...</div>
+      <div class="action-loading-subtext">Analyzing impacts and stakeholder responses</div>
+    </div>
+    
+    <!-- Notification Container -->
+    <div class="notification-container" id="notificationContainer"></div>
+    
+    <!-- Main Game UI -->
+    <header class="game-header" id="gameHeader">
+      <div class="game-logo">
+        <h1>Hidden Debt Trap Challenge</h1>
+      </div>
+    
+      <div class="game-controls">
+        <div class="mission-timer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M12 6.5V12L15 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span id="timerDisplay">10 Days Remaining</span>
+        </div>
+        
+        <button class="btn btn-outline" id="guideBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 6.75V8.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 15.75V17.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 12L12 12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Guide
+        </button>
+        
+        <button class="btn btn-primary" id="menuBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 6H20" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4 12H20" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4 18H20" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Menu
+        </button>
+      </div>
+    </header>
+    
+    <!-- Main Game Content -->
+    <div class="main-container" id="mainContainer">
+      <!-- Network Visualization Background -->
+      <div class="network-visualization" id="networkVisualization"></div>
+    
+      <!-- Left Panel: Mission Information & Progress -->
+      <div class="panel mission-panel">
+        <div class="panel-header">
+          <h2>Objectives and Metrics</h2>
+        </div>
+        
+        <div class="panel-content">
+          <div class="mission-objectives">
+            <h3>Mission Objectives</h3>
+            <div class="objective-list">
+              <div class="objective-item" data-objective-id="1">
+                <div class="objective-checkbox"></div>
+                <div class="objective-text">Establish a sustainable debt repayment plan</div>
+              </div>
+              <div class="objective-item" data-objective-id="2">
+                <div class="objective-checkbox"></div>
+                <div class="objective-text">Mitigate environmental concerns without compromising fiscal stability</div>
+              </div>
+              <div class="objective-item" data-objective-id="3">
+                <div class="objective-checkbox"></div>
+                <div class="objective-text">Maintain diplomatic relations with both Chinese and Western stakeholders</div>
+              </div>
+              <div class="objective-item" data-objective-id="4">
+                <div class="objective-checkbox"></div>
+                <div class="objective-text">Keep political influence above the critical threshold</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mission-progress">
+            <h3>Metrics</h3>
+            <div class="metrics-container">
+              <div class="metric" id="transparencyMetric">
+                <div class="metric-label">Fiscal Sustainability</div>
+                <div class="metric-bar">
+                  <div class="fill fill-transparency" style="width: 35%"></div>
+                </div>
+                <div class="metric-value value-low">35%</div>
+              </div>
+              
+              <div class="metric" id="communityMetric">
+                <div class="metric-label">Environmental Compliance</div>
+                <div class="metric-bar">
+                  <div class="fill fill-community" style="width: 40%"></div>
+                </div>
+                <div class="metric-value value-medium">40%</div>
+              </div>
+              
+              <div class="metric" id="esgMetric">
+                <div class="metric-label">Political Capital</div>
+                <div class="metric-bar">
+                  <div class="fill fill-esg" style="width: 60%"></div>
+                </div>
+                <div class="metric-value value-medium">60%</div>
+              </div>
+              
+              <div class="metric" id="accountabilityMetric">
+                <div class="metric-label">International Relations</div>
+                <div class="metric-bar">
+                  <div class="fill fill-accountability" style="width: 30%"></div>
+                </div>
+                <div class="metric-value value-low">30%</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="educational-insights">
+            <h3>Finance Ministry Insights</h3>
+            <div class="insight">
+              <p class="objective-text">Analyzing a project's ability to generate sufficient revenue to cover debt service is crucial for financial stability. Current port capacity utilization at 40% is significantly below projections, creating fiscal risks.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <!-- Middle Panel: Game Actions -->
+      <div class="panel game-panel">
+        <div class="panel-header">
+          <h2>Actions</h2>
+          <div class="tab-navigation">
+            <div class="tab active" data-tab="overview">Overview</div>
+            <div class="tab" data-tab="documents">Documents</div>
+            <div class="tab" data-tab="updates">Updates</div>
+          </div>
+        </div>
+        
+        <div class="panel-content">
+          <!-- Content will be dynamically inserted here by the showOverviewTab function -->
+        </div>
+      </div>
+    
+      <!-- Right Panel: Resources & Stakeholders -->
+      <div class="panel resources-panel">
+        <div class="panel-header">
+          <h2>Resources & Stakeholders</h2>
+        </div>
+
+        <div class="panel-content">
+          <div class="resources-section">
+            <h3>Your Resources</h3>
+            <div class="resources-list">
+              <div class="resource-item" id="budgetResource">
+                <div class="resource-name">Budget</div>
+                <div class="resource-value">
+                  <div class="resource-icon budget">$</div>
+                  $15,000,000
+                </div>
+              </div>
+              
+              <div class="resource-item" id="influenceResource">
+                <div class="resource-name">Political Influence</div>
+                <div class="resource-value">
+                  <div class="resource-icon influence">🔍</div>
+                  60 points
+                </div>
+              </div>
+              
+              <div class="resource-item" id="staffResource">
+                <div class="resource-name">Staff</div>
+                <div class="resource-value">
+                  <div class="resource-icon staff">👥</div>
+                  6 team members
+                </div>
+              </div>
+              
+              <div class="resource-item" id="timeResource">
+                <div class="resource-name">Time</div>
+                <div class="resource-value">
+                  <div class="resource-icon time">⏱️</div>
+                  10 days remaining
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="stakeholders-section">
+            <h3>Key Stakeholders</h3>
+            <div class="stakeholders-list">
+              <!-- Stakeholders will be dynamically inserted here -->
+            </div>
+          </div>
+          
+          <div class="news-updates">
+            <h3>News Updates</h3>
+            <div class="news-item">
+              <div class="news-date">Day 1</div>
+              <div class="news-title">Port Revenue Falls Short of Projections</div>
+              <p class="news-summary">Quarterly report shows Azuria's new port facility operating at 40% capacity, raising concerns about loan repayment.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+// ===== DOM ELEMENTS =====
+const playButton = document.getElementById('playButton');
+const howToPlayBtn = document.getElementById('howToPlayBtn');
+const missionItems = document.querySelectorAll('.mission-item');
+const startMissionBtn = document.getElementById('startMissionBtn');
+const closeGuideModal = document.getElementById('closeGuideModal');
+const closeGuideBtn = document.getElementById('closeGuideBtn');
+const startTutorialBtn = document.getElementById('startTutorialBtn');
+const guideModal = document.getElementById('guideModal');
+const splashScreen = document.getElementById('splashScreen');
+const missionDrawer = document.getElementById('missionDrawer');
+const loadingScreen = document.getElementById('loadingScreen');
+const gameHeader = document.getElementById('gameHeader');
+const mainContainer = document.getElementById('mainContainer');
+const guideBtn = document.getElementById('guideBtn');
+const menuBtn = document.getElementById('menuBtn');
+const menuModal = document.getElementById('menuModal');
+const closeMenuModal = document.getElementById('closeMenuModal');
+const stakeholderModal = document.getElementById('stakeholderModal');
+const closeStakeholderModal = document.getElementById('closeStakeholderModal');
+const closeStakeholderBtn = document.getElementById('closeStakeholderBtn');
+const actionLoadingOverlay = document.getElementById('actionLoadingOverlay');
+const panels = document.querySelectorAll('.panel');
+const tabs = document.querySelectorAll('.tab');
+
+// ===== GAME STATE =====
+let gameState = {
+    currentMission: 1,
+    currentDay: 1,
+    totalDays: 10,
+    resources: {
+        budget: 15000000,
+        influence: 60,
+        staff: 6,
+        timeRemaining: 10
+    },
+    metrics: {
+        fiscal: 35,
+        environmental: 40,
+        political: 60,
+        international: 30
+    },
+    stakeholders: [
+        { id: 1, name: "Prime Minister", relationship: "neutral", influence: "High", bio: "The Prime Minister is focused on economic growth but also faces political pressure over debt levels. He expects quick results and accountability. Your performance will directly impact his support for you.", image: "P" },
+        { id: 2, name: "Chinese Export-Import Bank", relationship: "neutral", influence: "High", bio: "As the primary lender, the Bank has significant leverage. They prefer not to take control of the port but need to show their investment is secure. Relations are professional but tense as repayment deadline approaches.", image: "C" },
+        { id: 3, name: "World Bank", relationship: "neutral", influence: "Medium", bio: "Interested in offering refinancing with governance conditions. They can offer more favorable terms but require transparency and environmental compliance standards that may be politically challenging.", image: "W" },
+        { id: 4, name: "Fishing Communities", relationship: "hostile", influence: "Low", bio: "Local fishing communities have seen their livelihoods impacted by port dredging. They're organizing protests and gaining media attention. Addressing their concerns could improve political capital.", image: "F" },
+        { id: 5, name: "Port Authority", relationship: "friendly", influence: "Medium", bio: "Managing day-to-day operations, they're eager for increased funding to boost efficiency. They have technical expertise about port operations but are defensive about current performance issues.", image: "P" }
+    ],
+    documents: [
+        { 
+            id: 1, 
+            title: "Port Project Financial Overview", 
+            type: "financial", 
+            icon: "💰",
+            content: "FINANCIAL ANALYSIS: AZURIA PORT DEVELOPMENT PROJECT\n\nInitial Investment: $450 million\nFunding Source: Chinese Export-Import Bank commercial loan\nInterest Rate: 4.5%\nTerm: 15 years (3-year grace period followed by 12-year repayment)\nCurrent Status: Year 3 (grace period ending)\n\nRevenue Projections vs. Actuals:\n- Original Projection: $65 million annual revenue by Year 3\n- Current Revenue: $26 million (40% of projection)\n\nCash Flow Analysis:\n- Annual Debt Service (starting next quarter): $42 million\n- Current Operating Expenses: $18 million\n- Current Net Income: $8 million\n- Projected Shortfall: $34 million\n\nNOTE: Undisclosed sections of the loan agreement appear to include provisions for asset transfer in case of default. Legal counsel advises further investigation of collateral terms."
+        },
+        { 
+            id: 2, 
+            title: "Environmental Impact Report", 
+            type: "report", 
+            icon: "🌿",
+            content: "ENVIRONMENTAL ASSESSMENT SUMMARY\n\nKey Findings:\n1. Dredging operations have disrupted marine habitats in a 5km radius from the port\n2. Sediment disposal has affected water quality in areas traditionally used by local fishing communities\n3. Fish populations have decreased by approximately 35% in affected areas\n4. Three protected species have shown population decline in the port vicinity\n\nRegulatory Compliance:\n- Port operations are technically in compliance with national environmental regulations\n- However, operations fall short of international best practices and World Bank standards\n\nCommunity Impact:\n- 200+ fishing households report significant decrease in catch volumes\n- Economic impact estimated at $2.5 million annually to local fishing economy\n\nRecommendations:\n1. Implement sediment containment systems: Est. cost $4-6 million\n2. Establish marine protected areas with community co-management: Est. cost $1.5 million\n3. Develop alternative livelihood programs for affected fishers: Est. cost $3 million"
+        },
+        { 
+            id: 3, 
+            title: "Loan Agreement (Partial)", 
+            type: "legal", 
+            icon: "📜",
+            content: "LOAN AGREEMENT EXCERPTS\n\nBORROWER: Government of Azuria\nLENDER: Export-Import Bank of China\nPURPOSE: Construction and operation of deep-water port facility\n\nArticle 4: Security and Collateral\n4.1 The Borrower hereby grants to the Lender a first priority security interest in the Project Assets.\n4.2 [REDACTED SECTION - REQUESTED FROM LEGAL DEPARTMENT]\n4.3 In the event of Default as defined in Article 8, the Lender shall have the right to [REDACTED SECTION]\n\nArticle 8: Events of Default\n8.1 Failure to make payment of principal or interest when due\n8.2 Material breach of operational covenants\n8.3 Failure to achieve minimum capacity utilization of 60% by end of Year 3\n\nArticle 12: Governing Law and Dispute Resolution\n12.1 This Agreement shall be governed by and construed in accordance with the laws of the People's Republic of China.\n12.2 Any dispute arising from or in connection with this Agreement shall be resolved through friendly consultation. If consultation fails, the dispute shall be submitted to the China International Economic and Trade Arbitration Commission for arbitration."
+        },
+        { 
+            id: 4, 
+            title: "Port Efficiency Analysis", 
+            type: "report", 
+            icon: "📊",
+            content: "PORT EFFICIENCY ANALYSIS\n\nCurrent Capacity Utilization: 40%\n- Container Handling: 35% of capacity\n- Bulk Cargo: 52% of capacity\n- Liquid Cargo: 28% of capacity\n\nKey Operational Challenges:\n1. Insufficient marketing to international shipping companies\n2. Lack of specialized handling equipment for certain cargo types\n3. Higher fees compared to competing regional ports (15-20% above average)\n4. Inadequate rail connections to inland commercial centers\n\nMarket Analysis:\n- Regional shipping volume growing at 6% annually\n- Competing ports operating at 65-75% capacity\n- Potential to capture 15-20% additional market share with targeted investments\n\nImprovement Recommendations:\n1. Reduce port fees temporarily to attract new business ($3-5M revenue impact)\n2. Invest in specialized cargo handling equipment ($8M investment)\n3. Establish direct marketing office in Singapore shipping hub ($1.2M annually)\n4. Develop performance incentives for port management team"
+        },
+        { 
+            id: 5, 
+            title: "Refinancing Options Analysis", 
+            type: "financial", 
+            icon: "💹",
+            content: "REFINANCING OPTIONS ANALYSIS\n\nOPTION 1: Chinese Belt and Road Initiative Restructuring\n- Extended term: Additional 5 years (20 years total)\n- Interest rate adjustment: Potential reduction to 3.8%\n- Requires: Commitment to additional Chinese investment projects\n- Annual payment reduction: Approximately $8 million\n\nOPTION 2: World Bank Infrastructure Financing\n- New loan: $400 million at 2.5% over 25 years\n- Requires: Enhanced environmental standards, management transparency\n- Governance conditions: Independent oversight board, public disclosure of all terms\n- Political implications: Potential diplomatic tension with current Chinese partners\n\nOOPTION 3: Public-Private Partnership Recapitalization\n- Partial privatization: 30% equity stake to international port operator\n- Capital infusion: $150 million\n- Operational control: Shared management with performance requirements\n- Benefits: Professional management, established shipping relationships\n- Risks: Loss of full sovereign control over strategic asset\n\nOPTION 4: Regional Development Bank Consortium\n- Multi-source financing: Asian Development Bank, African Development Bank, Islamic Development Bank\n- Blended terms: Approximately 3% over 18 years\n- Technical assistance package included\n- Diplomatic advantage: Diversified international relationships\n- Complexity: Coordinating multiple lending institutions and requirements"
+        },
+        { 
+            id: 6, 
+            title: "Community Impact Testimonials", 
+            type: "testimonial", 
+            icon: "👥",
+            content: "COMMUNITY IMPACT STATEMENTS\n\nFishing Village Representatives:\n\n\"My family has fished these waters for three generations. Since the port dredging began, our catch has dropped by half. We cannot feed our families this way.\" - Ibrahim Keita, Village Elder\n\n\"The sediment has driven away the fish. The water is cloudy where it was once clear. We've asked for meetings with port officials for months, but no one will speak with us.\" - Maria Semboa, Fishing Cooperative Leader\n\n\"We are not against development. We just want to be included in the discussion and compensated fairly for our losses.\" - Thomas Nkomo, Community Spokesperson\n\nLocal Business Owners:\n\n\"We were promised jobs and business opportunities from the port, but most contracts go to foreign companies. We local suppliers can't even get in the door.\" - Habiba Nuru, Chamber of Commerce Representative\n\n\"The road traffic has increased dramatically, but no infrastructure improvements have been made in town. We bear the costs while seeing none of the benefits.\" - Carlos Diallo, Transportation Company Owner\n\nEnvironmental Advocates:\n\n\"The environmental impact assessment was rushed and inadequate. It failed to consider seasonal marine migration patterns that are critical to our ecosystem.\" - Dr. Fatima Osei, Marine Biologist\n\n\"We've documented concerning levels of heavy metals in sediment samples that weren't addressed in the official reports.\" - Environmental Protection Alliance"
+        }
+    ],
+    completedObjectives: [],
+    decisions: [],
+    actionsHistory: [],
+    updates: []
+};
+
+// Create ripple effect for buttons
+function addRippleEffect() {
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            const rect = button.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const ripple = document.createElement('span');
+            ripple.classList.add('ripple-effect');
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            
+            button.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+    });
+}
+
+// Show and hide modal functions
+function openModal(modal) {
+    if (!modal) return;
+    modal.classList.add('active');
+}
+
+function closeModal(modal) {
+    if (!modal) return;
+    modal.classList.remove('active');
+}
+
+// Create action loading screen
+function showActionLoading(actionId) {
+    // Custom messaging based on action
+    const loadingText = actionLoadingOverlay.querySelector('.action-loading-text');
+    const loadingSubtext = actionLoadingOverlay.querySelector('.action-loading-subtext');
+    
+    switch(actionId) {
+        case 1: // Debt Analysis
+            loadingText.textContent = 'Conducting Debt Analysis...';
+            loadingSubtext.textContent = 'Reviewing loan terms and financial projections';
+            break;
+        case 2: // Environmental Assessment
+            loadingText.textContent = 'Conducting Environmental Assessment...';
+            loadingSubtext.textContent = 'Evaluating ecological impacts and mitigation options';
+            break;
+        case 3: // Diplomatic Meeting
+            loadingText.textContent = 'Arranging Diplomatic Meeting...';
+            loadingSubtext.textContent = 'Preparing negotiation strategies with Chinese officials';
+            break;
+        case 4: // Western Institution Consultation
+            loadingText.textContent = 'Consulting with Western Institutions...';
+            loadingSubtext.textContent = 'Discussing refinancing options with World Bank representatives';
+            break;
+        case 5: // Marketing Campaign
+            loadingText.textContent = 'Launching Marketing Campaign...';
+            loadingSubtext.textContent = 'Targeting international shipping companies to increase port usage';
+            break;
+        case 6: // Public Stakeholder Meeting
+            loadingText.textContent = 'Organizing Public Stakeholder Meeting...';
+            loadingSubtext.textContent = 'Gathering community representatives and preparing presentations';
+            break;
+        default:
+            loadingText.textContent = 'Processing action...';
+            loadingSubtext.textContent = 'Analyzing impacts and stakeholder responses';
+            break;
+    }
+    
+    // Show loading overlay with animation
+    actionLoadingOverlay.style.display = 'flex';
+    void actionLoadingOverlay.offsetWidth; // Force reflow
+    actionLoadingOverlay.style.opacity = '1';
+    
+    return new Promise(resolve => {
+        setTimeout(() => {
+            // Fade out
+            actionLoadingOverlay.style.opacity = '0';
+            setTimeout(() => {
+                actionLoadingOverlay.style.display = 'none';
+                resolve();
+            }, 300);
+        }, 2000); // Show loading for 2 seconds for dramatic effect
+    });
+}
+
+// Create interactive background connections for splash screen
+function createSplashConnections() {
+    const container = document.getElementById('splashConnections');
+    if (!container) return;
+    
+    // Clear any existing connections
+    container.innerHTML = '';
+    
+    // Create network nodes
+    const nodes = [];
+    const nodeCount = 10;
+    
+    for (let i = 0; i < nodeCount; i++) {
+        const node = document.createElement('div');
+        node.className = 'node';
+        
+        // Position nodes in a way that creates a world-map-like pattern
+        let x, y;
+        
+        // Create a more global distribution
+        if (i < nodeCount / 2) {
+            // Northern hemisphere
+            x = 10 + Math.random() * 80;
+            y = 10 + Math.random() * 40;
+        } else {
+            // Southern hemisphere
+            x = 10 + Math.random() * 80;
+            y = 50 + Math.random() * 40;
+        }
+        
+        node.style.left = `${x}%`;
+        node.style.top = `${y}%`;
+        
+        container.appendChild(node);
+        nodes.push({ element: node, x, y });
+    }
+    
+    // Create connections between nodes
+    for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+            // Only connect some nodes to avoid overcrowding
+            if (Math.random() > 0.7) continue;
+            
+            const connection = document.createElement('div');
+            connection.className = 'connection-line';
+            
+            // Make some connections more prominent
+            if (Math.random() > 0.7) {
+                connection.classList.add('connection-strategic');
+            } else if (Math.random() < 0.3) {
+                connection.classList.add('connection-thin');
+            }
+            
+            // Position and rotate connection
+            const x1 = nodes[i].x;
+            const y1 = nodes[i].y;
+            const x2 = nodes[j].x;
+            const y2 = nodes[j].y;
+            
+            const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+            const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+            
+            connection.style.width = `${length}%`;
+            connection.style.left = `${x1}%`;
+            connection.style.top = `${y1}%`;
+            connection.style.transform = `rotate(${angle}deg)`;
+            
+            container.appendChild(connection);
+        }
+    }
+}
+
+// Create network visualization for main game UI
+function createNetworkVisualization() {
+    const container = document.getElementById('networkVisualization');
+    if (!container) return;
+    
+    // Clear existing nodes
+    container.innerHTML = '';
+    
+    // Create nodes
+    const nodeCount = 40;
+    const nodes = [];
+    
+    // Create network nodes
+    for (let i = 0; i < nodeCount; i++) {
+        const node = document.createElement('div');
+        node.className = 'network-node';
+        
+        // Create a more intentional pattern - nodes cluster in corners and edges
+        let x, y;
+        
+        // Create clusters in different areas
+        const pattern = Math.floor(Math.random() * 5);
+        switch(pattern) {
+            case 0: // Top left cluster
+                x = 5 + Math.random() * 25;
+                y = 5 + Math.random() * 25;
+                break;
+            case 1: // Top right cluster
+                x = 70 + Math.random() * 25;
+                y = 5 + Math.random() * 25;
+                break;
+            case 2: // Bottom left cluster
+                x = 5 + Math.random() * 25;
+                y = 70 + Math.random() * 25;
+                break;
+            case 3: // Bottom right cluster
+                x = 70 + Math.random() * 25;
+                y = 70 + Math.random() * 25;
+                break;
+            case 4: // Center nodes
+                x = 40 + Math.random() * 20;
+                y = 40 + Math.random() * 20;
+                break;
+        }
+        
+        node.style.left = `${x}%`;
+        node.style.top = `${y}%`;
+        
+        // Vary node sizes
+        const size = 4 + Math.random() * 6;
+        node.style.width = `${size}px`;
+        node.style.height = `${size}px`;
+        
+        // Add subtle animation
+        node.style.animation = `pulse ${3 + Math.random() * 4}s infinite`;
+        
+        container.appendChild(node);
+        nodes.push({ element: node, x, y });
+    }
+    
+    // Create connections
+    for (let i = 0; i < nodes.length; i++) {
+        // Connect to 2-4 closest nodes
+        const connections = 2 + Math.floor(Math.random() * 3);
+        
+        // Find closest nodes
+        const distances = [];
+        for (let j = 0; j < nodes.length; j++) {
+            if (i !== j) {
+                const dx = nodes[i].x - nodes[j].x;
+                const dy = nodes[i].y - nodes[j].y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                distances.push({ index: j, distance });
+            }
+        }
+        
+        // Sort by distance
+        distances.sort((a, b) => a.distance - b.distance);
+        
+        // Connect to closest nodes
+        for (let j = 0; j < Math.min(connections, distances.length); j++) {
+            const targetIndex = distances[j].index;
+            
+            // Create connection
+            const connection = document.createElement('div');
+            connection.className = 'network-connection';
+            
+            // Calculate dimensions
+            const x1 = nodes[i].x;
+            const y1 = nodes[i].y;
+            const x2 = nodes[targetIndex].x;
+            const y2 = nodes[targetIndex].y;
+            
+            // Calculate distance and angle
+            const distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+            const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+            
+            // Set properties
+            connection.style.width = `${distance}%`;
+            connection.style.left = `${x1}%`;
+            connection.style.top = `${y1}%`;
+            connection.style.transform = `rotate(${angle}deg)`;
+            
+            container.appendChild(connection);
+        }
+    }
+}
+
+// Show notification
+function showNotification(options) {
+    const { type = 'info', title, message, duration = 5000 } = options;
+    
+    const container = document.getElementById('notificationContainer');
+    if (!container) return;
+    
+    const notification = document.createElement('div');
+    notification.className = `notification`;
+    
+    // Set icon based on type
+    let icon = '';
+    switch(type) {
+        case 'success':
+            icon = '✓';
+            notification.innerHTML = `<div class="notification-icon notification-success">${icon}</div>`;
+            break;
+        case 'warning':
+            icon = '!';
+            notification.innerHTML = `<div class="notification-icon notification-warning">${icon}</div>`;
+            break;
+        case 'error':
+            icon = '×';
+            notification.innerHTML = `<div class="notification-icon notification-error">${icon}</div>`;
+            break;
+        default: // info
+            icon = 'i';
+            notification.innerHTML = `<div class="notification-icon notification-info">${icon}</div>`;
+    }
+    
+    // Add content
+    notification.innerHTML += `
+        <div class="notification-content">
+            <div class="notification-title">${title}</div>
+            <div class="notification-message">${message}</div>
+        </div>
+        <div class="notification-close">×</div>
+    `;
+    
+    // Add to container
+    container.appendChild(notification);
+    
+    // Show with animation
+    setTimeout(() => {
+        notification.classList.add('active');
+        
+        // Add close button event listener
+        const closeBtn = notification.querySelector('.notification-close');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                notification.classList.remove('active');
+                setTimeout(() => notification.remove(), 300);
+            });
+        }
+        
+        // Auto remove after duration
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.classList.remove('active');
+                setTimeout(() => notification.remove(), 300);
+            }
+        }, duration);
+    }, 10);
+}
+
+// Show loading screen with progress
+function showLoadingScreen() {
+    loadingScreen.classList.add('active');
+    
+    // Simulate loading progress
+    const loadingBar = document.getElementById('loadingBar');
+    let progress = 0;
+    
+    const interval = setInterval(() => {
+        progress += Math.random() * 10;
+        if (progress > 100) progress = 100;
+        
+        if (loadingBar) loadingBar.style.width = `${progress}%`;
+        
+        if (progress >= 100) {
+            clearInterval(interval);
+            
+            setTimeout(() => {
+                hideLoadingScreen();
+                showMainGameUI();
+            }, 500);
+        }
+    }, 300);
+}
+
+function hideLoadingScreen() {
+    loadingScreen.classList.remove('active');
+}
+
+// Show Documents tab content
+function showDocumentsTab() {
+    const panelContent = document.querySelector('.game-panel .panel-content');
+    if (!panelContent) return;
+    
+    // Create documents interface
+    let html = `
+        <div class="documents-interface">
+            <div class="documents-sidebar">
+                <h3>Available Documents</h3>
+                <div class="documents-list">
+    `;
+    
+    // Add documents from game state
+    gameState.documents.forEach(doc => {
+        html += `
+            <div class="document-item" data-document-id="${doc.id}">
+                <div class="document-icon">${doc.icon}</div>
+                <div class="document-info">
+                    <div class="document-title">${doc.title}</div>
+                    <div class="document-type">${doc.type}</div>
+                </div>
+            </div>
+        `;
+    });
+    
+    html += `
+                </div>
+            </div>
+            <div class="document-viewer">
+                <div class="document-viewer-placeholder">
+                    <div class="placeholder-icon">📑</div>
+                    <div class="placeholder-text">Select a document to view its contents</div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    panelContent.innerHTML = html;
+    
+    // Add event listeners for document selection
+    const documentItems = document.querySelectorAll('.document-item');
+    documentItems.forEach(item => {
+        item.addEventListener('click', function() {
+            // Remove active class from all items
+            documentItems.forEach(i => i.classList.remove('active'));
+            
+            // Add active class to clicked item
+            this.classList.add('active');
+            
+            // Get document ID
+            const docId = parseInt(this.getAttribute('data-document-id'));
+            
+            // Find document in game state
+            const doc = gameState.documents.find(d => d.id === docId);
+            if (!doc) return;
+            
+            // Update document viewer
+            const documentViewer = document.querySelector('.document-viewer');
+            if (documentViewer) {
+                documentViewer.innerHTML = `
+                    <div class="document-header">
+                        <div class="document-header-icon">${doc.icon}</div>
+                        <div class="document-header-info">
+                            <h3>${doc.title}</h3>
+                            <div class="document-header-type">${doc.type}</div>
+                        </div>
+                    </div>
+                    <div class="document-content">
+                        <pre style="white-space: pre-wrap; font-family: 'Inter', sans-serif; font-size: 0.9rem; line-height: 1.6;">${doc.content}</pre>
+                    </div>
+                `;
+            }
+        });
+    });
+}
+
+// Show Updates tab content
+function showUpdatesTab() {
+    const panelContent = document.querySelector('.game-panel .panel-content');
+    if (!panelContent) return;
+    
+    if (gameState.updates.length === 0) {
+        panelContent.innerHTML = `
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--text-medium);">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">📰</div>
+                <div>No updates available yet. Take actions to see the results here.</div>
+            </div>
+        `;
+        return;
+    }
+    
+    let html = `<div class="updates-container">`;
+    
+    // Add updates in reverse chronological order
+    for (let i = gameState.updates.length - 1; i >= 0; i--) {
+        const update = gameState.updates[i];
+        html += `
+            <div class="news-item update-item">
+                <div class="news-date">Day ${update.day}</div>
+                <div class="news-title">${update.title}</div>
+                <div class="news-summary">${update.content}</div>
+            </div>
+        `;
+    }
+    
+    html += `</div>`;
+    panelContent.innerHTML = html;
+}
+
+// Show overview tab content
+function showOverviewTab() {
+    const panelContent = document.querySelector('.game-panel .panel-content');
+    if (!panelContent) return;
+    
+    // Create narrative section and action cards
+    let html = `
+        <div class="narrative-section">
+            <div class="narrative-entry">
+                <div class="narrative-icon">📅</div>
+                <div class="narrative-content">
+                    <h3>Day ${gameState.currentDay}: Financial Analysis Begins</h3>
+                    <p>The Prime Minister has assigned you to address the port financing situation. Your preliminary financial analysis confirms that the port is generating insufficient revenue to meet the upcoming loan payment. You must evaluate options including restructuring, refinancing, or negotiating for extended terms.</p>
+                </div>
+            </div>
+    `;
+    
+    // Add additional narrative entries if there are actions in history
+    if (gameState.actionsHistory.length > 0) {
+        for (let i = gameState.actionsHistory.length - 1; i >= 0; i--) {
+            const action = gameState.actionsHistory[i];
+            html += `
+                <div class="narrative-entry">
+                    <div class="narrative-icon">${action.icon}</div>
+                    <div class="narrative-content">
+                        <h3>Day ${action.day}: ${action.title}</h3>
+                        <p>${action.description}</p>
+                    </div>
+                </div>
+            `;
+        }
+    }
+    
+    html += `</div>
+        <h3 class="section-title">Available Actions</h3>
+        <div class="action-cards">
+            <div class="action-card" data-action-id="1">
+                <div class="action-header">
+                    <h4>Debt Analysis</h4>
+                    <div class="action-cost">
+                        <span>$500,000</span>
+                        <span>1 day</span>
+                    </div>
+                </div>
+                <p class="action-description">Commission a detailed analysis of the loan terms and potential restructuring options.</p>
+                <button class="btn btn-primary btn-small action-button">Take Action</button>
+            </div>
+            
+            <div class="action-card" data-action-id="2">
+                <div class="action-header">
+                    <h4>Environmental Assessment</h4>
+                    <div class="action-cost">
+                        <span>$750,000</span>
+                        <span>2 days</span>
+                    </div>
+                </div>
+                <p class="action-description">Evaluate environmental impacts of the port and develop mitigation strategies.</p>
+                <button class="btn btn-primary btn-small action-button">Take Action</button>
+            </div>
+            
+            <div class="action-card" data-action-id="3">
+                <div class="action-header">
+                    <h4>Diplomatic Meeting</h4>
+                    <div class="action-cost">
+                        <span>$200,000</span>
+                        <span>1 day</span>
+                    </div>
+                </div>
+                <p class="action-description">Arrange high-level discussions with Chinese officials to explore restructuring options.</p>
+                <button class="btn btn-primary btn-small action-button">Take Action</button>
+            </div>
+            
+            <div class="action-card" data-action-id="4">
+                <div class="action-header">
+                    <h4>Western Institution Consultation</h4>
+                    <div class="action-cost">
+                        <span>$300,000</span>
+                        <span>1 day</span>
+                    </div>
+                </div>
+                <p class="action-description">Explore refinancing options with World Bank and IMF representatives.</p>
+                <button class="btn btn-primary btn-small action-button">Take Action</button>
+            </div>
+            
+            <div class="action-card" data-action-id="5">
+                <div class="action-header">
+                    <h4>Marketing Campaign</h4>
+                    <div class="action-cost">
+                        <span>$1,000,000</span>
+                        <span>3 days</span>
+                    </div>
+                </div>
+                <p class="action-description">Launch international marketing to attract more shipping companies to the port.</p>
+                <button class="btn btn-primary btn-small action-button">Take Action</button>
+            </div>
+            
+            <div class="action-card" data-action-id="6">
+                <div class="action-header">
+                    <h4>Public Stakeholder Meeting</h4>
+                    <div class="action-cost">
+                        <span>$150,000</span>
+                        <span>1 day</span>
+                    </div>
+                </div>
+                <p class="action-description">Organize community consultation to address local concerns about the port.</p>
+                <button class="btn btn-primary btn-small action-button">Take Action</button>
+            </div>
+        </div>
+    `;
+    
+    panelContent.innerHTML = html;
+    
+    // Add event listeners to action buttons
+    const actionButtons = document.querySelectorAll('.action-button');
+    actionButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const actionCard = this.closest('.action-card');
+            if (!actionCard) return;
+            
+            const actionId = parseInt(actionCard.getAttribute('data-action-id'));
+            if (!actionId) return;
+            
+            // Execute action
+            executeAction(actionId);
+        });
+    });
+    
+    // Add ripple effect to new buttons
+    addRippleEffect();
+}
+
+// Update resources display
+function updateResourcesDisplay() {
+    // Update budget
+    const budgetElement = document.querySelector('#budgetResource .resource-value');
+    if (budgetElement) {
+        budgetElement.innerHTML = `
+            <div class="resource-icon budget">$</div>
+            $${gameState.resources.budget.toLocaleString()}
+        `;
+    }
+    
+    // Update influence
+    const influenceElement = document.querySelector('#influenceResource .resource-value');
+    if (influenceElement) {
+        influenceElement.innerHTML = `
+            <div class="resource-icon influence">🔍</div>
+            ${gameState.resources.influence} points
+        `;
+    }
+    
+    // Update staff
+    const staffElement = document.querySelector('#staffResource .resource-value');
+    if (staffElement) {
+        staffElement.innerHTML = `
+            <div class="resource-icon staff">👥</div>
+            ${gameState.resources.staff} team members
+        `;
+    }
+    
+    // Update time
+    const timeElement = document.querySelector('#timeResource .resource-value');
+    if (timeElement) {
+        timeElement.innerHTML = `
+            <div class="resource-icon time">⏱️</div>
+            ${gameState.resources.timeRemaining} days remaining
+        `;
+    }
+    
+    // Update timer display
+    const timerDisplay = document.getElementById('timerDisplay');
+    if (timerDisplay) {
+        timerDisplay.textContent = `${gameState.resources.timeRemaining} Days Remaining`;
+    }
+    
+    // Update mission status
+    const missionStatus = document.querySelector('.mission-status');
+    if (missionStatus) {
+        missionStatus.textContent = `Day ${gameState.currentDay} of ${gameState.totalDays}`;
+    }
+}
+
+// Update stakeholders display
+function updateStakeholdersDisplay() {
+    const stakeholdersList = document.querySelector('.stakeholders-list');
+    if (!stakeholdersList) return;
+    
+    // Clear existing stakeholders
+    stakeholdersList.innerHTML = '';
+    
+    // Add stakeholders from game state
+    gameState.stakeholders.forEach(stakeholder => {
+        const item = document.createElement('div');
+        item.className = 'stakeholder-item';
+        item.setAttribute('data-stakeholder-id', stakeholder.id);
+        
+        item.innerHTML = `
+            <div class="stakeholder-avatar">${stakeholder.image}</div>
+            <div class="stakeholder-info">
+                <div class="stakeholder-name">${stakeholder.name}</div>
+                <div class="stakeholder-relationship relationship-${stakeholder.relationship}">${stakeholder.relationship.charAt(0).toUpperCase() + stakeholder.relationship.slice(1)}</div>
+            </div>
+            <div class="stakeholder-influence">${stakeholder.influence}</div>
+        `;
+        
+        stakeholdersList.appendChild(item);
+        
+        // Add click event listener for stakeholder details
+        item.addEventListener('click', () => {
+            showStakeholderDetails(stakeholder);
+        });
+    });
+}
+
+// Show stakeholder details in modal
+function showStakeholderDetails(stakeholder) {
+    const modalTitle = document.getElementById('stakeholderModalTitle');
+    const modalBody = document.getElementById('stakeholderModalBody');
+    
+    if (!modalTitle || !modalBody) return;
+    
+    modalTitle.textContent = stakeholder.name;
+    
+    // Create content based on stakeholder
+    modalBody.innerHTML = `
+        <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+            <div style="width: 60px; height: 60px; background-color: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 600;">${stakeholder.image}</div>
+            <div>
+                <div style="font-weight: 600; color: var(--text-dark); margin-bottom: 0.5rem;">${stakeholder.name}</div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <span class="stakeholder-relationship relationship-${stakeholder.relationship}">${stakeholder.relationship.charAt(0).toUpperCase() + stakeholder.relationship.slice(1)}</span>
+                    <span class="stakeholder-influence">${stakeholder.influence} Influence</span>
+                </div>
+            </div>
+        </div>
+        <p style="line-height: 1.6; color: var(--text-medium);">${stakeholder.bio}</p>
+        <h4>Current Relations</h4>
+        <p style="line-height: 1.6; color: var(--text-medium);">
+            ${getStakeholderRelationText(stakeholder)}
+        </p>
+    `;
+    
+    // Open the modal
+    openModal(stakeholderModal);
+}
+
+// Get relationship description text based on stakeholder relationship
+function getStakeholderRelationText(stakeholder) {
+    switch(stakeholder.relationship) {
+        case 'friendly':
+            return `Relations with ${stakeholder.name} are positive. They trust your approach and are willing to collaborate on solutions. Continue to maintain this relationship by addressing their key concerns.`;
+        case 'neutral':
+            return `Relations with ${stakeholder.name} are professional but cautious. They're waiting to see how your decisions will affect their interests before committing either way.`;
+        case 'hostile':
+            return `Relations with ${stakeholder.name} are strained. They're skeptical of your intentions and may resist your initiatives. Finding common ground and addressing their specific concerns should be a priority.`;
+        default:
+            return `Current relationship status with ${stakeholder.name} is undefined.`;
+    }
+}
+
+// Show main game UI
+function showMainGameUI() {
+    // Display the game header and main container
+    gameHeader.style.display = 'flex';
+    mainContainer.style.display = 'grid';
+    
+    // Initialize network visualization
+    createNetworkVisualization();
+    
+    // Show Overview tab content initially
+    showOverviewTab();
+    
+    // Update stakeholders display
+    updateStakeholdersDisplay();
+    
+    // Animate panels appearing
+    panels.forEach((panel, index) => {
+        setTimeout(() => {
+            panel.style.transition = "opacity 0.8s ease, transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)";
+            panel.style.opacity = "1";
+            panel.style.transform = "translateY(0)";
+        }, 300 + index * 200);
+    });
+    
+    // Set up tab navigation
+    setupTabNavigation();
+    
+    // Set up game UI event handlers
+    setupGameUIHandlers();
+    
+// Show welcome notification
+showNotification({
+        type: 'info',
+        title: 'Mission Started',
+        message: 'Welcome to your new assignment. The Prime Minister is counting on your financial expertise to resolve this debt challenge.'
+    });
+}
+
+// Set up event handlers for the game UI
+function setupGameUIHandlers() {
+    // Add event listeners to objective checkboxes
+    const objectives = document.querySelectorAll('.objective-item');
+    objectives.forEach(objective => {
+        objective.addEventListener('click', function() {
+            const checkbox = this.querySelector('.objective-checkbox');
+            if (!checkbox) return;
+            
+            // Toggle checkbox
+            if (checkbox.classList.contains('checked')) {
+                checkbox.classList.remove('checked');
+            } else {
+                checkbox.classList.add('checked');
+                
+                // Show notification for demo purposes
+                showNotification({
+                    type: 'success',
+                    title: 'Objective Completed',
+                    message: 'You have made progress on an important objective!'
+                });
+            }
+        });
+    });
+    
+    // Guide button
+    if (guideBtn) {
+        guideBtn.addEventListener('click', () => openModal(guideModal));
+    }
+    
+    // Menu button
+    if (menuBtn) {
+        menuBtn.addEventListener('click', () => openModal(menuModal));
+    }
+    
+    // Close buttons for modals
+    if (closeGuideModal) {
+        closeGuideModal.addEventListener('click', () => closeModal(guideModal));
+    }
+    
+    if (closeGuideBtn) {
+        closeGuideBtn.addEventListener('click', () => closeModal(guideModal));
+    }
+    
+    if (closeMenuModal) {
+        closeMenuModal.addEventListener('click', () => closeModal(menuModal));
+    }
+    
+    if (closeStakeholderModal) {
+        closeStakeholderModal.addEventListener('click', () => closeModal(stakeholderModal));
+    }
+    
+    if (closeStakeholderBtn) {
+        closeStakeholderBtn.addEventListener('click', () => closeModal(stakeholderModal));
+    }
+    
+    // Menu items
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const id = this.id;
+            
+            closeModal(menuModal);
+            
+            switch(id) {
+                case 'menuSaveGame':
+                    showNotification({
+                        type: 'success',
+                        title: 'Game Saved',
+                        message: 'Your progress has been saved successfully.'
+                    });
+                    break;
+                case 'menuLoadGame':
+                    showNotification({
+                        type: 'info',
+                        title: 'Load Game',
+                        message: 'Select a saved game to continue from that point.'
+                    });
+                    break;
+                case 'menuOptions':
+                    showNotification({
+                        type: 'info',
+                        title: 'Game Options',
+                        message: 'Adjust difficulty, display, and other game settings.'
+                    });
+                    break;
+                case 'menuStats':
+                    showNotification({
+                        type: 'info',
+                        title: 'Game Statistics',
+                        message: 'View detailed performance metrics and decision history.'
+                    });
+                    break;
+                case 'menuReturnMain':
+                    if (confirm('Return to main menu? Your unsaved progress will be lost.')) {
+                        gameHeader.style.display = 'none';
+                        mainContainer.style.display = 'none';
+                        splashScreen.classList.remove('hidden');
+                    }
+                    break;
+                case 'menuExit':
+                    if (confirm('Are you sure you want to exit the game? All unsaved progress will be lost.')) {
+                        showNotification({
+                            type: 'info',
+                            title: 'Exiting Game',
+                            message: 'Thank you for playing. The game will now close.'
+                        });
+                    }
+                    break;
+            }
+        });
+    });
+}
+
+// Setup tab navigation
+function setupTabNavigation() {
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            // Find tab container
+            const tabContainer = this.closest('.panel-header, .tab-navigation');
+            if (!tabContainer) return;
+            
+            // Find all tabs in the same container
+            const tabsInContainer = tabContainer.querySelectorAll('.tab');
+            
+            // Remove active class from all tabs in this container
+            tabsInContainer.forEach(t => t.classList.remove('active'));
+            
+            // Add active class to clicked tab
+            this.classList.add('active');
+            
+            // Show appropriate content based on tab
+            const tabType = this.getAttribute('data-tab');
+            if (tabType === 'documents') {
+                showDocumentsTab();
+            } else if (tabType === 'updates') {
+                showUpdatesTab();
+            } else {
+                showOverviewTab();
+            }
+        });
+    });
+}
+
+// Execute action
+async function executeAction(actionId) {
+    // Get action details
+    let cost = 0;
+    let timeCost = 0;
+    let staffCost = 0;
+    let influenceChange = 0;
+    let fiscalChange = 0;
+    let environmentalChange = 0;
+    let politicalChange = 0;
+    let internationalChange = 0;
+    
+    switch(actionId) {
+        case 1: // Debt Analysis
+            cost = 500000;
+            timeCost = 1;
+            staffCost = 1;
+            influenceChange = -5; // Negative political influence as resources are diverted
+            fiscalChange = 15;
+            politicalChange = -5;
+            break;
+        case 2: // Environmental Assessment
+            cost = 750000;
+            timeCost = 2;
+            staffCost = 2;
+            influenceChange = -10; // More significant political hit as it delays action
+            environmentalChange = 25;
+            politicalChange = -8;
+            break;
+        case 3: // Diplomatic Meeting
+            cost = 200000;
+            timeCost = 1;
+            staffCost = 0;
+            influenceChange = 5; // Positive political gain
+            internationalChange = 15;
+            break;
+        case 4: // Western Institution Consultation
+            cost = 300000;
+            timeCost = 1;
+            staffCost = 0;
+            influenceChange = -8; // Political hit from exploring Western options
+            fiscalChange = 10;
+            internationalChange = 10;
+            politicalChange = -10;
+            break;
+        case 5: // Marketing Campaign
+            cost = 1000000;
+            timeCost = 3;
+            staffCost = 1;
+            influenceChange = 15; // Strong political benefit
+            fiscalChange = 20;
+            politicalChange = 15;
+            break;
+        case 6: // Public Stakeholder Meeting
+            cost = 150000;
+            timeCost = 1;
+            staffCost = 1;
+            influenceChange = 10;
+            environmentalChange = 15;
+            politicalChange = 8;
+            break;
+    }
+    
+    // Check if player has enough resources
+    if (gameState.resources.budget < cost) {
+        showNotification({
+            type: 'error',
+            title: 'Insufficient Budget',
+            message: `You need $${cost.toLocaleString()} to perform this action, but you only have $${gameState.resources.budget.toLocaleString()}.`
+        });
+        return;
+    }
+    
+    if (gameState.resources.timeRemaining < timeCost) {
+        showNotification({
+            type: 'error',
+            title: 'Insufficient Time',
+            message: `You need ${timeCost} days to perform this action, but you only have ${gameState.resources.timeRemaining} days remaining.`
+        });
+        return;
+    }
+    
+    if (gameState.resources.staff < staffCost) {
+        showNotification({
+            type: 'error',
+            title: 'Insufficient Staff',
+            message: `You need ${staffCost} staff members for this action, but you only have ${gameState.resources.staff} available.`
+        });
+        return;
+    }
+    
+    // Update resources
+    gameState.resources.budget -= cost;
+    gameState.resources.timeRemaining -= timeCost;
+    gameState.resources.staff -= staffCost;
+    gameState.currentDay += timeCost;
+    gameState.resources.influence += influenceChange;
+    
+    // Update metrics
+    if (fiscalChange) updateMetric('fiscal', fiscalChange);
+    if (environmentalChange) updateMetric('environmental', environmentalChange);
+    if (politicalChange) updateMetric('political', politicalChange);
+    if (internationalChange) updateMetric('international', internationalChange);
+    
+    // Show loading screen
+    await showActionLoading(actionId);
+    
+    // Show action result
+    showActionResult(actionId);
+    
+    // Check if political influence is too low
+    if (gameState.resources.influence <= 10) {
+        showGameOver();
+    }
+}
+
+// Show action result
+function showActionResult(actionId) {
+    // Different results based on action ID
+    let title, content, icon, stakeholderChanges = [];
+    
+    switch(actionId) {
+        case 1: // Debt Analysis
+            title = "Debt Analysis Findings";
+            content = "Your analysis reveals concerning collateral clauses that could transfer port control to Chinese lenders upon default. The Prime Minister is displeased by these findings, questioning why Finance Ministry didn't identify these terms earlier. However, this information is crucial for your negotiation strategy.";
+            icon = "📊";
+            
+            // Update stakeholders
+            stakeholderChanges.push({id: 1, relationship: "hostile"}); // Prime Minister becomes more negative
+            stakeholderChanges.push({id: 2, relationship: "neutral"}); // Chinese Bank remains neutral
+            
+            // Add to game history
+            gameState.actionsHistory.push({
+                id: 1,
+                day: gameState.currentDay,
+                title: "Debt Analysis Completed",
+                description: "Your team uncovered crucial details about the loan terms that will inform your negotiation strategy.",
+                icon: "📊"
+            });
+            
+            // Add update
+            gameState.updates.push({
+                day: gameState.currentDay,
+                title: "Azuria Financial Times: Hidden Loan Terms Revealed",
+                content: "Finance Ministry analysis uncovers controversial collateral terms in the Chinese port loan agreement. Sources report these terms could potentially transfer operational control of the strategic port facility in case of default. The Prime Minister has called for an emergency cabinet meeting to discuss implications."
+            });
+            
+            break;
+            
+        case 2: // Environmental Assessment
+            title = "Environmental Assessment Results";
+            content = "The assessment documents significant ecological impact from port dredging, affecting local fishing communities. Remediation costs are estimated at $8 million. While addressing these issues would improve community relations, it will strain your already tight budget.";
+            icon = "🌿";
+            
+            // Update stakeholders
+            stakeholderChanges.push({id: 4, relationship: "neutral"}); // Fishing Communities become less hostile
+            stakeholderChanges.push({id: 1, relationship: "hostile"}); // Prime Minister more negative due to additional costs
+            
+            // Add to game history
+            gameState.actionsHistory.push({
+                id: 2,
+                day: gameState.currentDay,
+                title: "Environmental Assessment Completed",
+                description: "The assessment revealed significant ecological impacts that will require substantial remediation investment.",
+                icon: "🌿"
+            });
+            
+            // Add update
+            gameState.updates.push({
+                day: gameState.currentDay,
+                title: "Coastal Weekly: Port Environmental Damage \"Worse Than Expected\"",
+                content: "Independent assessment commissioned by the Finance Ministry has documented extensive ecological damage from port dredging operations. Local fishing communities have welcomed the acknowledgment of their concerns, but worry remediation will come too late. Environmental advocates are calling for immediate action and compensation for affected communities."
+            });
+            
+            break;
+            
+        case 3: // Diplomatic Meeting
+            title = "Diplomatic Meeting Outcome";
+            content = "Your meeting with Chinese officials was productive. They're open to restructuring the loan with extended terms, but require formal commitments to prioritize Chinese shipping companies at the port. The Prime Minister sees this as a viable path forward.";
+            icon = "🤝";
+            
+            // Update stakeholders
+            stakeholderChanges.push({id: 2, relationship: "friendly"}); // Chinese Bank becomes more positive
+            stakeholderChanges.push({id: 1, relationship: "friendly"}); // Prime Minister pleased with progress
+            stakeholderChanges.push({id: 3, relationship: "hostile"}); // World Bank less enthusiastic 
+            
+            // Add to game history
+            gameState.actionsHistory.push({
+                id: 3,
+                day: gameState.currentDay,
+                title: "Diplomatic Meeting Held",
+                description: "Productive discussions with Chinese officials have opened a path to potential loan restructuring.",
+                icon: "🤝"
+            });
+            
+            // Add update
+            gameState.updates.push({
+                day: gameState.currentDay,
+                title: "International Finance Daily: Azuria and China in Debt Restructuring Talks",
+                content: "High-level financial diplomacy appears to be yielding results as Azuria's Finance Ministry reports productive discussions with Chinese lenders. Sources suggest loan terms may be renegotiated to ease immediate repayment pressure, though specific concessions remain undisclosed. Western financial institutions express concern over possible preferential arrangements."
+            });
+            
+            break;
+            
+        case 4: // Western Institution Consultation
+            title = "Western Institution Consultation Results";
+            content = "World Bank representatives offer favorable refinancing terms at 2.5% interest over 25 years, but with governance conditions including independent oversight. This has angered Chinese officials who see this as undermining their relationship with Azuria.";
+            icon = "🏛️";
+            
+            // Update stakeholders
+            stakeholderChanges.push({id: 3, relationship: "friendly"}); // World Bank becomes more positive
+            stakeholderChanges.push({id: 2, relationship: "hostile"}); // Chinese Bank becomes negative
+            
+            // Add to game history
+            gameState.actionsHistory.push({
+                id: 4,
+                day: gameState.currentDay,
+                title: "Western Institutions Consulted",
+                description: "Discussions with World Bank provided alternative financing options but complicated Chinese relations.",
+                icon: "🏛️"
+            });
+            
+            // Add update
+            gameState.updates.push({
+                day: gameState.currentDay,
+                title: "Global Finance Review: Western Institutions Offer Azuria Alternative Financing",
+                content: "The World Bank has proposed a comprehensive refinancing package for Azuria's port debt at significantly lower interest rates than the current Chinese loan. However, the offer comes with governance and transparency requirements that could complicate geopolitical relationships. Chinese officials have expressed 'serious concern' over what they describe as Western interference in bilateral arrangements."
+            });
+            
+            break;
+            
+        case 5: // Marketing Campaign
+            title = "Marketing Campaign Launch";
+            content = "Your international marketing campaign has attracted interest from several major shipping companies. Projections suggest port utilization could increase to 60% within six months. The Prime Minister is pleased with this proactive approach to boosting revenue.";
+            icon = "📢";
+            
+            // Add to game history
+            gameState.actionsHistory.push({
+                id: 5,
+                day: gameState.currentDay,
+                title: "Marketing Campaign Launched",
+                description: "Your international marketing efforts have successfully attracted new shipping companies to the port.",
+                icon: "📢"
+            });
+            
+            // Add update
+            gameState.updates.push({
+                day: gameState.currentDay,
+                title: "Shipping Industry Today: Azuria Port Launches Global Marketing Initiative",
+                content: "The Finance Ministry has spearheaded an aggressive international marketing campaign to attract shipping traffic to Azuria's underutilized port facility. Initial responses from major shipping lines have been positive, with three companies expressing interest in establishing regular routes. Port authority officials project a potential 20% increase in utilization within six months if current negotiations are successful."
+            });
+            
+            break;
+            
+        case 6: // Public Stakeholder Meeting
+            title = "Public Stakeholder Meeting Results";
+            content = "The meeting with fishing communities generated valuable goodwill, though some demands for compensation will strain your budget. The Prime Minister appreciates your effort to address local concerns, but Chinese officials question whether community issues should delay loan repayments.";
+            icon = "👥";
+            
+            // Update stakeholders
+            stakeholderChanges.push({id: 4, relationship: "friendly"}); // Fishing Communities become positive
+            stakeholderChanges.push({id: 2, relationship: "hostile"}); // Chinese Bank becomes more negative
+            
+            // Add to game history
+            gameState.actionsHistory.push({
+                id: 6,
+                day: gameState.currentDay,
+                title: "Public Stakeholder Meeting Held",
+                description: "Your engagement with local communities has improved relations but created new financial demands.",
+                icon: "👥"
+            });
+            
+            // Add update
+            gameState.updates.push({
+                day: gameState.currentDay,
+                title: "Azuria Daily News: Finance Ministry Meets with Affected Communities",
+                content: "In an unprecedented move, Finance Ministry officials held open consultations with fishing communities affected by port operations. Community leaders presented evidence of declining catches and called for compensation and environmental remediation. Ministry representatives committed to incorporating community concerns into the port's financial restructuring plans, though specific commitments remain undefined."
+            });
+            
+            break;
+    }
+    
+    // Apply stakeholder relationship changes
+    stakeholderChanges.forEach(change => {
+        updateStakeholderRelationship(change.id, change.relationship);
+    });
+    
+    // Show notification about the action result
+    showNotification({
+        type: 'success',
+        title: title,
+        message: content
+    });
+    
+    // Update resources display
+    updateResourcesDisplay();
+    
+    // Update stakeholders display
+    updateStakeholdersDisplay();
+    
+    // Refresh the currently active tab
+    const activeTab = document.querySelector('.game-panel .tab.active');
+    if (activeTab) {
+        const tabType = activeTab.getAttribute('data-tab');
+        if (tabType === 'documents') {
+            showDocumentsTab();
+        } else if (tabType === 'updates') {
+            showUpdatesTab();
+        } else {
+            showOverviewTab();
+        }
+    }
+}
+
+// Show game over screen when political influence is too low
+function showGameOver() {
+    // Create modal or full-screen overlay for game over
+    const gameOverDiv = document.createElement('div');
+    gameOverDiv.className = 'modal active';
+    gameOverDiv.style.zIndex = '400';
+    
+    gameOverDiv.innerHTML = `
+        <div class="modal-content" style="text-align: center; max-width: 500px; background-color: var(--card-bg); transform: scale(1); opacity: 1;">
+            <div style="padding: 2rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem; color: var(--danger);">🚫</div>
+                <h2 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--danger);">Game Over: Political Crisis</h2>
+                <p style="margin-bottom: 2rem; line-height: 1.6;">Your political influence has fallen below the critical threshold. The Prime Minister has lost confidence in your ability to manage the port financing crisis and has asked for your resignation.</p>
+                <button class="btn btn-primary" id="restartGameBtn" style="margin: 0 auto;">Restart Mission</button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(gameOverDiv);
+    
+    // Add event listener to restart button
+    document.getElementById('restartGameBtn').addEventListener('click', function() {
+        // Remove game over screen
+        gameOverDiv.remove();
+        
+        // Reset game state to initial values
+        gameState = {
+            currentMission: 1,
+            currentDay: 1,
+            totalDays: 10,
+            resources: {
+                budget: 15000000,
+                influence: 60,
+                staff: 6,
+                timeRemaining: 10
+            },
+            metrics: {
+                fiscal: 35,
+                environmental: 40,
+                political: 60,
+                international: 30
+            },
+            stakeholders: [
+                { id: 1, name: "Prime Minister", relationship: "neutral", influence: "High", bio: "The Prime Minister is focused on economic growth but also faces political pressure over debt levels. He expects quick results and accountability. Your performance will directly impact his support for you.", image: "P" },
+                { id: 2, name: "Chinese Export-Import Bank", relationship: "neutral", influence: "High", bio: "As the primary lender, the Bank has significant leverage. They prefer not to take control of the port but need to show their investment is secure. Relations are professional but tense as repayment deadline approaches.", image: "C" },
+                { id: 3, name: "World Bank", relationship: "neutral", influence: "Medium", bio: "Interested in offering refinancing with governance conditions. They can offer more favorable terms but require transparency and environmental compliance standards that may be politically challenging.", image: "W" },
+                { id: 4, name: "Fishing Communities", relationship: "hostile", influence: "Low", bio: "Local fishing communities have seen their livelihoods impacted by port dredging. They're organizing protests and gaining media attention. Addressing their concerns could improve political capital.", image: "F" },
+                { id: 5, name: "Port Authority", relationship: "friendly", influence: "Medium", bio: "Managing day-to-day operations, they're eager for increased funding to boost efficiency. They have technical expertise about port operations but are defensive about current performance issues.", image: "P" }
+            ],
+            documents: gameState.documents,
+            completedObjectives: [],
+            decisions: [],
+            actionsHistory: [],
+            updates: []
+        };
+        
+        // Update UI to reflect reset state
+        updateResourcesDisplay();
+        updateStakeholdersDisplay();
+        
+        // Reset active tab to overview
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => tab.classList.remove('active'));
+        const overviewTabs = document.querySelectorAll('.tab[data-tab="overview"]');
+        overviewTabs.forEach(tab => tab.classList.add('active'));
+        
+        showOverviewTab();
+        
+        // Show notification
+        showNotification({
+            type: 'info',
+            title: 'Mission Restarted',
+            message: 'You have a new opportunity to resolve the port financing crisis. Good luck!'
+        });
+    });
+    
+    // Add ripple effect to the button
+    addRippleEffect();
+}
+
+// Update stakeholder relationship
+function updateStakeholderRelationship(stakeholderId, direction) {
+    const stakeholder = gameState.stakeholders.find(s => s.id === stakeholderId);
+    if (!stakeholder) return;
+    
+    // Change relationship based on direction
+    if (direction === "friendly") {
+        // Move relationship toward friendly
+        if (stakeholder.relationship === "hostile") {
+            stakeholder.relationship = "neutral";
+        } else if (stakeholder.relationship === "neutral") {
+            stakeholder.relationship = "friendly";
+        }
+    } else if (direction === "hostile") {
+        // Move relationship toward hostile
+        if (stakeholder.relationship === "friendly") {
+            stakeholder.relationship = "neutral";
+        } else if (stakeholder.relationship === "neutral") {
+            stakeholder.relationship = "hostile";
+        }
+    } else if (direction === "neutral") {
+        // Move relationship toward neutral
+        stakeholder.relationship = "neutral";
+    }
+}
+
+// Update metric display
+function updateMetric(metric, change) {
+    // Map old metric names to new ones for the UI
+    const metricMap = {
+        'fiscal': 'transparencyMetric',
+        'environmental': 'communityMetric',
+        'political': 'esgMetric',
+        'international': 'accountabilityMetric'
+    };
+    
+    const metricElement = document.getElementById(metricMap[metric]);
+    if (!metricElement) return;
+    
+    // Update game state
+    gameState.metrics[metric] += change;
+    if (gameState.metrics[metric] > 100) gameState.metrics[metric] = 100;
+    if (gameState.metrics[metric] < 0) gameState.metrics[metric] = 0;
+    
+    // Update UI
+    const fillElement = metricElement.querySelector('.fill');
+    const valueElement = metricElement.querySelector('.metric-value');
+    
+    if (fillElement) {
+        fillElement.style.width = `${gameState.metrics[metric]}%`;
+    }
+    
+    if (valueElement) {
+        valueElement.textContent = `${gameState.metrics[metric]}%`;
+        
+        // Update color class
+        valueElement.classList.remove('value-low', 'value-medium', 'value-high');
+        
+        if (gameState.metrics[metric] < 40) {
+            valueElement.classList.add('value-low');
+        } else if (gameState.metrics[metric] < 70) {
+            valueElement.classList.add('value-medium');
+        } else {
+            valueElement.classList.add('value-high');
+        }
+    }
+}
+
+// Open mission selection
+function openMissionSelection() {
+    splashScreen.classList.add('hidden');
+    missionDrawer.classList.add('active');
+}
+
+// Start loading sequence then show game UI
+function startMission() {
+    missionDrawer.classList.remove('active');
+    showLoadingScreen();
+}
+
+// Start tutorial (placeholder for demo)
+function startTutorial() {
+    closeModal(guideModal);
+    showNotification({
+        type: 'info',
+        title: 'Tutorial Mode',
+        message: 'In the full game, this would start an interactive tutorial introducing key financial management strategies and diplomatic approaches.'
+    });
+}
+
+// Initialize game elements
+function initGame() {
+    // Create splash screen connections
+    createSplashConnections();
+    
+    // Add ripple effect to buttons
+    addRippleEffect();
+    
+    // Set up event listeners
+    playButton.addEventListener('click', openMissionSelection);
+    howToPlayBtn.addEventListener('click', () => openModal(guideModal));
+    startMissionBtn.addEventListener('click', startMission);
+    startTutorialBtn.addEventListener('click', startTutorial);
+    
+    // Set up mission item selection
+    missionItems.forEach(item => {
+        item.addEventListener('click', function() {
+            // Add active class to clicked mission
+            missionItems.forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+}
+
+// Initialize the game when DOM is loaded
+initGame();
+});
+</script>
+</body>
+</html>
